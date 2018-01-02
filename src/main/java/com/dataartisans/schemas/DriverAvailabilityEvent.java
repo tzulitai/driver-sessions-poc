@@ -45,7 +45,15 @@ public class DriverAvailabilityEvent {
     }
 
     public static DriverAvailabilityEvent fromString(String string) {
-        return new DriverAvailabilityEvent();
+
+        // String string = "2018,false,2017-01-01T00:00:00.972411087Z"
+        String[] parts = string.split(",");
+        String eventTimeString = parts[2].substring(0,19).replace("T", " ");
+        Long eventTimestamp = java.sql.Timestamp.valueOf(eventTimeString).getTime();
+        String driverId = parts[0];
+        boolean availability = Boolean.valueOf(parts[1]);
+        return new DriverAvailabilityEvent(driverId, availability, eventTimestamp);
+
     }
 
     public static class WatermarkExtractor extends BoundedOutOfOrdernessTimestampExtractor<DriverAvailabilityEvent> {
