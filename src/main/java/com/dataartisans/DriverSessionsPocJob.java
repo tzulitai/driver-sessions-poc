@@ -29,12 +29,12 @@ public class DriverSessionsPocJob {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         final DataStream<DriverStateEvent> driverStateEvents = env
-                .socketTextStream("localhost", 1111) // TODO: just a playground source
+                .socketTextStream("localhost", 9998) // TODO: just a playground source
                 .map(new DriverStateEventParser())
                 .assignTimestampsAndWatermarks(new DriverStateEvent.WatermarkExtractor(MAX_OUT_OF_ORDERNESS));
 
         final DataStream<DriverAvailabilityEvent> driverAvailabilityEvents = env
-                .socketTextStream("localhost", 2222) // TODO: just a playground source
+                .socketTextStream("localhost", 9999) // TODO: just a playground source
                 .map(new DriverAvailabilityEventParser())
                 .assignTimestampsAndWatermarks(new DriverAvailabilityEvent.WatermarkExtractor(MAX_OUT_OF_ORDERNESS));
 

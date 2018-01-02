@@ -54,8 +54,16 @@ public class DriverStateEvent {
         this.driverId = driverId;
     }
 
+
     public static DriverStateEvent fromString(String string) {
-        return new DriverStateEvent();
+        //String string = "2017-01-01T00:20:14.664315708Z,2018,AVAILABLE,OFFLINE";
+        String[] parts = string.split(",");
+        String eventTimeString = parts[0].substring(0,19).replace("T", " ");
+        Long eventTimestamp = java.sql.Timestamp.valueOf(eventTimeString).getTime();
+        String driverId = parts[1];
+        DriverState lastState = DriverState.valueOf(parts[2] );
+        DriverState currentState = DriverState.valueOf(parts[3]);
+        return new DriverStateEvent(eventTimestamp, driverId, lastState, currentState);
     }
 
     public static class WatermarkExtractor extends BoundedOutOfOrdernessTimestampExtractor<DriverStateEvent> {

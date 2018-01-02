@@ -15,6 +15,7 @@ import org.apache.flink.util.Collector;
  *
  * TODO: Note - the to-do comments below are only a placeholder.
  * TODO: Actual join logic would probably be best implemented as a FSM, with the FSM state checkpointed
+ * FSM -> is this means finite state machine?
  */
 public class DriverSessionJoiner
         extends RichFlatMapFunction<Either<DriverStateEvent, DriverAvailabilityEvent>, DriverSessionEvent> {
